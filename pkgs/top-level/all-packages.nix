@@ -7199,6 +7199,8 @@ with pkgs;
 
   fdtools = callPackage ../tools/misc/fdtools { };
 
+  feather-wallet = callPackage ../applications/blockchains/feather-wallet {};
+
   featherpad = qt5.callPackage ../applications/editors/featherpad {};
 
   fend = callPackage ../tools/misc/fend { };
