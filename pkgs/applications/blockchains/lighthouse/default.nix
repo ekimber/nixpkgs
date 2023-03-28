@@ -1,26 +1,27 @@
 { clang
 , cmake
+, CoreFoundation
 , fetchFromGitHub
 , fetchurl
 , lib
 , lighthouse
-, llvmPackages
+, nix-update-script
 , nodePackages
 , perl
+, pkg-config
 , protobuf
 , rustPlatform
 , Security
-, CoreFoundation
+, sqlite
 , stdenv
+, SystemConfiguration
 , testers
 , unzip
-, nix-update-script
-, SystemConfiguration
 }:
 
 rustPlatform.buildRustPackage rec {
   pname = "lighthouse";
-  version = "3.5.1";
+  version = "4.0.1";
 
   # lighthouse/common/deposit_contract/build.rs
   depositContractSpecVersion = "0.12.1";
@@ -30,8 +31,16 @@ rustPlatform.buildRustPackage rec {
     owner = "sigp";
     repo = "lighthouse";
     rev = "v${version}";
-    hash = "sha256-oF32s1nfzEZbaNUi5sQSrotcyOSinULj/qrRQWdMXHg=";
+    hash = "sha256-EwioetkTX58/GBbb2eKJxdgncXwJ9xUOcvq0+XiqhEo=";
   };
+
+  patches = [
+    ./use-system-sqlite.patch
+  ];
+
+  postPatch = ''
+    cp ${./Cargo.lock} Cargo.lock
+  '';
 
   cargoLock = {
     lockFile = ./Cargo.lock;
@@ -50,11 +59,19 @@ rustPlatform.buildRustPackage rec {
 
   buildFeatures = [ "modern" "gnosis" ];
 
-  nativeBuildInputs = [ rustPlatform.bindgenHook cmake perl protobuf ];
+  nativeBuildInputs = [
+    rustPlatform.bindgenHook
+    cmake
+    perl
+    pkg-config
+    protobuf
+  ];
 
-  buildInputs = lib.optionals stdenv.isDarwin [
-    Security
+  buildInputs = [
+    sqlite
+  ] ++ lib.optionals stdenv.isDarwin [
     CoreFoundation
+    Security
     SystemConfiguration
   ];
 
