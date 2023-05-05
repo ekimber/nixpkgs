@@ -35556,6 +35556,8 @@ with pkgs;
 
   masari = callPackage ../applications/blockchains/masari { boost = boost174; };
 
+  mev-boost = callPackage ../applications/blockchains/mev-boost { };
+  
   napari = with python3Packages; toPythonApplication napari;
 
   nano-wallet = libsForQt5.callPackage ../applications/blockchains/nano-wallet
