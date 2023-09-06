@@ -27690,6 +27690,9 @@ with pkgs;
 
   mbtileserver = callPackage ../servers/geospatial/mbtileserver { };
 
+#  opentopodata = with python3Packages; toPythonApplication opentopodata;
+  opentopodata = callPackage ../servers/geospatial/opentopodata { };
+  
   pg_featureserv = callPackage ../servers/geospatial/pg_featureserv { };
 
   pg_tileserv = callPackage ../servers/geospatial/pg_tileserv { };
