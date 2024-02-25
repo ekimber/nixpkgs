@@ -20,7 +20,7 @@
 
 stdenv.mkDerivation rec {
   pname = "pioneer";
-  version = "20220203";
+  version = "20240203";
 
   src = fetchFromGitHub{
     owner = "pioneerspacesim";
