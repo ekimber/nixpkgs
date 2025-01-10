@@ -12,7 +12,7 @@ let
 
 in python311.pkgs.buildPythonApplication rec {
   pname = "BittyTax";
-  version = "0.5.3-dev-a";
+  version = "0.5.3.dev20";
   pyproject = true;
   
   src = fetchFromGitHub {
@@ -65,13 +65,13 @@ in python311.pkgs.buildPythonApplication rec {
     };
   in pkgs.python311.override {inherit packageOverrides; self = python311;};
 
-   nativeBuildInputs = [
-     python311.pkgs.setuptools
-   ];
+   # nativeBuildInputs = [
+   #   python311.pkgs.setuptools
+   # ];
 
    propagatedBuildInputs = with python311.pkgs; [
      colorama jinja2 openpyxl defusedxml pyyaml python-dateutil requests
-     typing-extensions xlrd xlsxwriter reportlab xhtml2pdf tqdm ];
+     typing-extensions xlrd xlsxwriter reportlab xhtml2pdf tqdm setuptools ];
   
   meta = with lib; {
     description = "A cryptocurrency tax calculator";
