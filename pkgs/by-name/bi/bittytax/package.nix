@@ -1,7 +1,7 @@
 {
   lib,
   fetchFromGitHub,
-  python3,
+  python311,
   pkgs,
   fetchPypi,
   freetype
@@ -10,7 +10,7 @@
 let
   ft = freetype.overrideAttrs (oldArgs: { dontDisableStatic = true; });
 
-in python3.pkgs.buildPythonApplication rec {
+in python311.pkgs.buildPythonApplication rec {
   pname = "BittyTax";
   version = "0.5.3-dev-a";
   pyproject = true;
@@ -18,12 +18,12 @@ in python3.pkgs.buildPythonApplication rec {
   src = fetchFromGitHub {
     owner = "BittyTax";
     repo = "BittyTax";
-    rev = "4f5dc12cd77e3533d3683e9e010edfd2a3432a9e";
-    hash = "sha256-1plOPjuBURglyClcVOeuGlBjGU4tFScf8oMTfptmT3E=";
+    rev = "81f93f18479ae918e73e68aa16a73063cb3cfb9b";
+    hash = "sha256-FFKCGN6kavU1Ter0OJC9F8aifwWve8sOZ5o1C9CY5L8=";
   };
 
   # need older reportlab, xhtml2pdf packages because of breakage
-  python3 = let 
+  python311 = let 
     packageOverrides = python-self: python-super: {
       reportlab = python-super.reportlab.overridePythonAttrs (oldAttrs: {
         version = "3.6.13";
@@ -33,7 +33,7 @@ in python3.pkgs.buildPythonApplication rec {
           version = "3.6.13";
         };
         buildInputs = [ ft ];
-        propagatedBuildInputs = [ python3.pkgs.pillow ];
+        propagatedBuildInputs = [ python311.pkgs.pillow ];
           postPatch = ''
     substituteInPlace setup.py \
       --replace "mif = findFile(d,'ft2build.h')" "mif = findFile('${lib.getDev ft}','ft2build.h')"
@@ -50,7 +50,7 @@ in python3.pkgs.buildPythonApplication rec {
 
   checkPhase = ''
     cd tests
-    LC_ALL="en_US.UTF-8" ${python3.interpreter} runAll.py
+    LC_ALL="en_US.UTF-8" ${python311.interpreter} runAll.py
   '';
       });
       xhtml2pdf = python-super.xhtml2pdf.overridePythonAttrs (oldAttrs: {
@@ -63,13 +63,13 @@ in python3.pkgs.buildPythonApplication rec {
         };
       });
     };
-  in pkgs.python3.override {inherit packageOverrides; self = python3;};
+  in pkgs.python311.override {inherit packageOverrides; self = python311;};
 
    nativeBuildInputs = [
-     python3.pkgs.setuptools
+     python311.pkgs.setuptools
    ];
 
-   propagatedBuildInputs = with python3.pkgs; [
+   propagatedBuildInputs = with python311.pkgs; [
      colorama jinja2 openpyxl defusedxml pyyaml python-dateutil requests
      typing-extensions xlrd xlsxwriter reportlab xhtml2pdf tqdm ];
   
