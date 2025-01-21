@@ -12,14 +12,14 @@ let
 
 in python311.pkgs.buildPythonApplication rec {
   pname = "BittyTax";
-  version = "0.5.3.dev20";
+  version = "0.5.3.dev21";
   pyproject = true;
   
   src = fetchFromGitHub {
     owner = "BittyTax";
     repo = "BittyTax";
-    rev = "81f93f18479ae918e73e68aa16a73063cb3cfb9b";
-    hash = "sha256-FFKCGN6kavU1Ter0OJC9F8aifwWve8sOZ5o1C9CY5L8=";
+    rev = "c187325dc889ad4f3fd69343ed0c53d03d6c1ff3";
+    hash = "sha256-A6Basx0q7NHuRan9n7ZjkZ6RfLFM4oyZQRxuxVRrE4w=";
   };
 
   # need older reportlab, xhtml2pdf packages because of breakage
